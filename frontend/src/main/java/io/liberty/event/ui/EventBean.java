@@ -1,0 +1,304 @@
+package io.liberty.event.ui;
+
+import java.util.Map;
+
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.ws.rs.BadRequestException;
+
+import io.liberty.event.ui.facelets.PageDispatcher;
+import io.liberty.event.ui.util.TimeMapUtil;
+import io.liberty.event.client.EventClient;
+import io.liberty.event.client.UnknownUrlException;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UIInput;
+import jakarta.faces.component.html.HtmlInputHidden;
+import jakarta.faces.component.html.HtmlPanelGroup;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ComponentSystemEvent;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.view.ViewScoped;
+import jakarta.faces.annotation.ManagedProperty;
+
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@Named
+@ViewScoped
+public class EventBean implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private String name;
+    private String location;
+    private String day;
+    private String month;
+    private String year;
+    private String hour;
+    private int selectedId;
+    private boolean notValid;
+    private ComponentSystemEvent currentComponent;
+
+    @Inject
+    @RestClient
+    private EventClient eventClient;
+
+    @Inject
+    @ManagedProperty(value = "#{pageDispatcher}")
+    private PageDispatcher pageDispatcher;
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getLocation() {
+        return this.location;
+    }
+
+    public String getHour() {
+        return this.hour;
+    }
+
+    public String getDay() {
+        return this.day;
+    }
+
+    public String getMonth() {
+        return this.month;
+    }
+
+    public String getYear() {
+        return this.year;
+    }
+
+    public boolean getNotValid() {
+        return notValid;
+    }
+
+    public PageDispatcher getPageDispatcher() {
+        return this.pageDispatcher;
+    }
+
+    public void setPageDispatcher(PageDispatcher pageDispatcher) {
+        this.pageDispatcher = pageDispatcher;
+    }
+
+    public void setCurrentComponent(ComponentSystemEvent component) {
+        this.currentComponent = component;
+    }
+
+    public void setSelectedId(int selectedId) {
+        this.selectedId = selectedId;
+    }
+
+    public void removeSelectedId() {
+        this.selectedId = -1;
+    }
+
+
+    public String showTime(String storedTime) {
+        return TimeMapUtil.getMappedDate(storedTime);
+    }
+
+    public void submitToService() {
+        String time = createStoredTime();
+        try {
+            eventClient.addEvent(name, time, location);
+            pageDispatcher.showMainPage();
+            clear();
+        } catch (UnknownUrlException e) {
+            System.err.println("The given URL is unreachable.");
+        } catch (BadRequestException e) {
+            displayInvalidEventError();
+        }
+
+    }
+
+    public void submitUpdateToService() {
+        String time = createStoredTime();
+        try {
+            eventClient.updateEvent(this.name, time, this.location, this.selectedId);
+            pageDispatcher.showMainPage();
+            clear();
+        } catch (UnknownUrlException e) {
+            System.err.println("The given URL is unreachable");
+        } catch (BadRequestException e) {
+            displayInvalidEventError();
+        }
+    }
+
+    public void editEvent() {
+        JsonObject event = retrieveEventByCurrentId(this.selectedId);
+        String[] fullDateInfo = parseTime(event.getString("time"));
+        this.hour = fullDateInfo[0] + " " + fullDateInfo[1];
+        this.month = fullDateInfo[2];
+        this.day = fullDateInfo[3];
+        this.year = fullDateInfo[4];
+        this.name = event.getString("name");
+        this.location = event.getString("location");
+        this.selectedId = event.getInt("id");
+
+        pageDispatcher.showEditPage();
+    }
+
+    public void submitDeletetoService() {
+        try {
+            eventClient.deleteEvent(this.selectedId);
+        } catch (UnknownUrlException e) {
+            System.err.println("The given URL is unreachable");
+        }
+
+        pageDispatcher.showMainPage();
+    }
+
+    public JsonArray retrieveEventList() {
+        try {
+            return eventClient.getEvents();
+        } catch (UnknownUrlException e) {
+            System.err.println("The given URL is unreachable.");
+            return null;
+        }
+    }
+
+    public JsonObject retrieveEventByCurrentId(int currentId) {
+        try {
+            return eventClient.getEvent(currentId);
+        } catch (UnknownUrlException e) {
+            System.err.println("The given URL is unreachable");
+            return null;
+        }
+    }
+
+    public Map<String, Object> getHoursMap() {
+        return TimeMapUtil.getHours();
+    }
+
+    public Map<String, Object> getDaysMap() {
+        return TimeMapUtil.getDays();
+    }
+
+    public Map<String, Object> getMonthsMap() {
+        return TimeMapUtil.getMonths();
+    }
+
+    public Map<String, Object> getYearsMap() {
+        return TimeMapUtil.getYears();
+    }
+
+    // Checks the user input for the event time.
+    public void checkTime(ComponentSystemEvent event) throws ParseException {
+        String hour = getUnitOfTime(event, "eventHour");
+        String day = getUnitOfTime(event, "eventDay");
+        String month = getUnitOfTime(event, "eventMonth");
+        String year = getUnitOfTime(event, "eventYear");
+
+        SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a, MMMM d yyyy");
+        formatter.setLenient(false);
+        Date userDate;
+
+        try {
+            userDate = formatter.parse(hour + ", " + month + " " + day + " " + year);
+            if (userDate.before(new Date())) {
+                allowSubmission(event, false);
+                addErrorMessage(event, "Choose a valid time");
+                displayError(true);
+            } else {
+                allowSubmission(event, true);
+                displayError(false);
+            }
+        } catch (Exception e) {
+            allowSubmission(event, false);
+            addErrorMessage(event, "Choose a valid time");
+            displayError(true);
+        }
+    }
+
+    // Displays the error message if time is not valid or the event already exists
+    public void displayError(boolean display) {
+        notValid = display;
+    }
+
+    public void clear() {
+        setName(null);
+        setLocation(null);
+        setDay(null);
+        setMonth(null);
+        setYear(null);
+        setHour(null);
+    }
+
+    // Helper method to create the time string to be stored at the back end.
+    private String createStoredTime() {
+        return hour + ", " + month + " " + day + " " + year;
+    }
+
+    // Parses time (in format: hh:mm AM, dd mm yyyy) into time, meridiem, month,
+    // day, year respectively.
+    private String[] parseTime(String time) {
+        String delims = "[ ,]+";
+        return time.split(delims);
+    }
+
+    // Adds "Choose a valid time" message after selectOptions in user interface.
+    private void addErrorMessage(ComponentSystemEvent event, String errorMessage) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        FacesMessage message = new FacesMessage(errorMessage);
+        HtmlPanelGroup divEventTime = (HtmlPanelGroup) event.getComponent()
+                .findComponent("eventform:eventTime");
+        context.addMessage(divEventTime.getClientId(context), message);
+    }
+
+    private UIInput getUnitOfTimeOptions(ComponentSystemEvent event, String unit) {
+        UIComponent components = event.getComponent();
+        UIInput unitOptions = (UIInput) components.findComponent("eventform:" + unit);
+        return unitOptions;
+    }
+
+    private String getUnitOfTime(ComponentSystemEvent event, String unit) {
+        UIInput unitOptions = getUnitOfTimeOptions(event, unit);
+        return (String) unitOptions.getLocalValue();
+    }
+
+    private void allowSubmission(ComponentSystemEvent event, boolean allowSubmission) {
+        UIComponent components = event.getComponent();
+        HtmlInputHidden formInput = (HtmlInputHidden) components
+                .findComponent("eventform:eventSubmit");
+        formInput.setValid(allowSubmission);
+    }
+
+    private void displayInvalidEventError() {
+        allowSubmission(currentComponent, false);
+        addErrorMessage(currentComponent, "Event already exists!");
+        displayError(true);
+    }
+}
