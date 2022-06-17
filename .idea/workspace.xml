@@ -5,44 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99e0a397-219e-433b-a12d-82fca8952a19" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/io/liberty/event/dao/EventDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/io/liberty/event/models/Event.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/io/liberty/event/resources/EventApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/io/liberty/event/resources/EventResource.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/liberty/config/server.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/resources/META-INF/persistence.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/io/liberty/event/CucumberRunnerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/java/io/liberty/event/StepDefenitions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/test/resources/io.liberty.event/event.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/io/liberty/event/client/BadRequestExceptionMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/io/liberty/event/client/EventClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/io/liberty/event/client/UnknownUrlException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/io/liberty/event/client/UnknownUrlExceptionMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/io/liberty/event/ui/EventBean.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/io/liberty/event/ui/facelets/PageDispatcher.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/io/liberty/event/ui/facelets/PageLoader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/java/io/liberty/event/ui/util/TimeMapUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/liberty/config/server.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/META-INF/microprofile-config.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/WEB-INF/faces-config.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/content/eventForm.xhtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/content/mainPage.xhtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/content/updateEventForm.xhtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/eventmanager.xhtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/header/header.xhtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/images/openliberty.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/navBar/leftNav.xhtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/main/webapp/stylesheet.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
