@@ -10,13 +10,14 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IsCreationDateBeforeToday {
+    private static Date today = new Date();
+
     static String isCreationDateBeforeToday(Date creationDate) {
-        return null;
+        return creationDate.before(today) ? "Choose a valid date" : "Have fun";
     }
 }
 
 public class StepDefenitions {
-    private Date today = new Date();
     private Date creationDate;
     private String actualAnswer;
 
@@ -36,7 +37,7 @@ public class StepDefenitions {
     }
 
     @Then("I should be told {string}")
-    public void i_should_be_told(String expetedAnswer) {
-        assertEquals(expetedAnswer, actualAnswer);
+    public void i_should_be_told(String expectedAnswer) {
+        assertEquals(expectedAnswer, actualAnswer);
     }
 }

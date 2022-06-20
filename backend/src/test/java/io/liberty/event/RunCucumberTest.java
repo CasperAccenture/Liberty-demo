@@ -5,6 +5,6 @@ import io.cucumber.junit.CucumberOptions;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "classpath:Feature")
-public class CucumberRunnerTest {
+@CucumberOptions(features = "src/test/resources/io.liberty.event")
+public class RunCucumberTest {
 }

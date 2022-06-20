@@ -4,4 +4,4 @@ Feature: Create Event
   Scenario: Date of event is before today
     Given creation date is 12:00 am, May 1 2022
     When creation date is before today
-    Then I should be told "Choose a valid time"
+    Then I should be told "Choose a valid date"

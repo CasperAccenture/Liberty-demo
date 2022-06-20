@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="99e0a397-219e-433b-a12d-82fca8952a19" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/test/resources/cucumber.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/io/liberty/event/CucumberRunnerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/io/liberty/event/RunCucumberTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/io/liberty/event/StepDefenitions.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/java/io/liberty/event/StepDefenitions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/resources/io.liberty.event/event.feature" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/test/resources/io.liberty.event/event.feature" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +58,28 @@
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="io.liberty.event" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="RunCucumberTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="backend" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.liberty.event.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.liberty.event" />
+      <option name="MAIN_CLASS_NAME" value="io.liberty.event.RunCucumberTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.RunCucumberTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
