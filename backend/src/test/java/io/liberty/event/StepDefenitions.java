@@ -10,9 +10,9 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
 class IsCreationDateBeforeToday {
-    private static Date today = new Date();
 
     static String isCreationDateBeforeToday(Date creationDate) {
+        Date today = new Date();
         return creationDate.before(today) ? "Choose a valid date" : "Have fun";
     }
 }
